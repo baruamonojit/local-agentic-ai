@@ -3,7 +3,7 @@ import uuid
 from typing import Any, Dict
 from dotenv import load_dotenv
 import streamlit as st
-
+import os
 from langchain.agents import create_agent
 from langchain.messages import AIMessageChunk, HumanMessage
 from langchain.tools import tool
@@ -61,7 +61,10 @@ st.markdown("""
 # 3. Cached Models & Agent
 @st.cache_resource
 def get_llm_and_agent():
+
+    ollama_host = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     llm = ChatOllama(
+        base_url=ollama_host,
         model="qwen3:8b",
         temperature=0.2,
         num_ctx=4096,
